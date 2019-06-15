@@ -1,11 +1,13 @@
 <template>
   <div>
-    <ul>
+    <ul class="message-list">
       <li
         v-for="message in messages"
         :key="message.id"
       >
-        {{ message.text }}
+        <v-chip :color="'#4F3EC8'">
+          {{ message.text }}
+        </v-chip>
       </li>
     </ul>
   </div>
@@ -30,3 +32,10 @@ export default {
   }
 }
 </script>
+
+<style>
+  .message-list {
+    padding: 10px;
+    list-style: none;
+  }
+</style>

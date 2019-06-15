@@ -95,8 +95,15 @@ export default {
           nickname: this.nickname,
           groupName: this.groupName
         }
-        this.setUser(user)
-        this.$router.push('/chat')
+        this.$socket.emit('userSignedIn', user, (data) => {
+          if (typeof data === 'string') {
+            console.error(data)
+          } else {
+            user.id = data.userId
+            this.setUser(user)
+            this.$router.push('/chat')
+          }
+        })
       }
     }
   }
