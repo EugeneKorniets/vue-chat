@@ -23,7 +23,9 @@
       send () {
         this.$socket.emit('createMessage', {
           text: this.text,
-          id: this.$store.state.user.id
+          id: this.$store.state.user.id,
+          name: this.$store.state.user.nickname,
+          groupName: this.$store.state.user.groupName
         }, (data) => {
           if (typeof data === 'string') {
             console.error(data)
