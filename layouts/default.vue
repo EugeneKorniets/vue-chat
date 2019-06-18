@@ -3,6 +3,7 @@
     <v-navigation-drawer
       app
       v-model="isDrawerVisible"
+      mobile-break-point="650"
     >
       <v-list subheader>
         <v-subheader class="subheading">Список пользователей онлайн</v-subheader>
@@ -48,7 +49,9 @@
       </v-btn>
     </v-toolbar>
     <v-content>
-      <nuxt/>
+      <div class="chat__container">
+        <nuxt/>
+      </div>
     </v-content>
   </v-app>
 </template>
@@ -93,3 +96,8 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+  .chat__container
+    height 100%
+</style>
