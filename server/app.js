@@ -2,10 +2,10 @@ const app = require('express')()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
-const message = (name, text, id) => ({
+const message = (name, text, owner) => ({
   name,
   text,
-  id
+  owner
 })
 
 io.on('connection', socket => {
@@ -19,19 +19,18 @@ io.on('connection', socket => {
       callback({
         userId: socket.id
       })
-      socket.emit('newMessage', message('admin', `Добро пожаловать в чат ${data.nickname}`, -1))
+      socket.emit('newMessage', message('admin', `Добро пожаловать в чат ${data.nickname}`))
       socket.broadcast
         .to(data.groupName)
-        .emit('newMessage', message('admin', `Пользователь ${data.nickname} зашел в чат.`, -2))
+        .emit('newMessage', message('admin', `Пользователь ${data.nickname} зашел в чат`))
     }
   })
 
   socket.on('createMessage', data => {
-    setTimeout(() => {
-      socket.emit('newMessage', {
-        text: data.text + ' server'
-      })
-    }, 500)
+    socket.emit('newMessage', message(data.name, data.text, true))
+    socket.broadcast
+      .to(data.groupName)
+      .emit('newMessage', message(data.name, data.text, false))
   })
 })
 
