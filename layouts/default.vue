@@ -90,8 +90,12 @@ export default {
     ...mapMutations(['clearData']),
 
     exit () {
-      this.$router.push('/?message=leftChat')
-      this.clearData()
+      this.$socket.emit('userLeftChat', {
+        id: this.$store.state.user.id
+      }, () => {
+        this.$router.push('/?message=leftChat')
+        this.clearData()
+      })
     }
   }
 }

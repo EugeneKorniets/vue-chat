@@ -6,7 +6,7 @@
         :key="index"
         :text="message.text"
         :name="message.name"
-        :owner="message.owner"
+        :owner="message.id === user.id"
       />
     </div>
 
