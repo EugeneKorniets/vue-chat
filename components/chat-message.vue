@@ -62,12 +62,13 @@ export default {
       padding 1rem
       width 60%
       box-shadow 0 1px 0 0 rgba(50, 50, 50, .3)
-      border-radius 20px
+      border-radius 20px 20px 20px 0
       background #4F3EC8
 
       &--owner
         align-self flex-end
         color #000
+        border-radius 20px 20px 0 20px
         background #10B15A
 
     &__message-author
@@ -75,6 +76,4 @@ export default {
 
     &__message-text
       margin-bottom 0
-
-
 </style>
