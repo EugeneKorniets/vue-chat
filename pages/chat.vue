@@ -6,7 +6,7 @@
         :key="index"
         :text="message.text"
         :name="message.name"
-        :owner="message.id === user.id"
+        :owner="message.id === currentUser.id"
       />
     </div>
 
@@ -34,12 +34,12 @@ export default {
 
   head () {
     return {
-      title: `Групповой чат ${this.user.groupName}`
+      title: `Групповой чат ${this.currentUser.groupName}`
     }
   },
 
   computed: {
-    ...mapState(['user', 'messages'])
+    ...mapState(['currentUser', 'messages'])
   }
 }
 </script>

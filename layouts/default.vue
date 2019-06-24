@@ -26,12 +26,12 @@
           </v-list-tile-avatar>
 
           <v-list-tile-content>
-            <v-list-tile-title v-html="user.nickname"></v-list-tile-title>
+            <v-list-tile-title v-html="user.name"></v-list-tile-title>
           </v-list-tile-content>
 
           <v-list-tile-action>
             <v-icon
-              v-if="user.id === 2"
+              v-if="user.id === currentUser.id"
               :color="'#10B15A'">check_circle</v-icon>
           </v-list-tile-action>
         </v-list-tile>
@@ -39,7 +39,7 @@
     </v-navigation-drawer>
     <v-toolbar app>
       <v-toolbar-side-icon @click="isDrawerVisible = !isDrawerVisible"/>
-      <v-toolbar-title>Групповой чат {{ user.groupName }}</v-toolbar-title>
+      <v-toolbar-title>Групповой чат {{ currentUser.groupName }}</v-toolbar-title>
       <v-spacer/>
       <v-btn
         color="primary"
@@ -61,29 +61,11 @@ import { mapState, mapMutations } from 'vuex'
 
 export default {
   data: () => ({
-    isDrawerVisible: true,
-
-    users: [
-      {
-        id: 1,
-        nickname: 'Программер',
-        avatarLink: ''
-      },
-      {
-        id: 2,
-        nickname: 'Программер 1',
-        avatarLink: ''
-      },
-      {
-        id: 3,
-        nickname: 'Программер 2',
-        avatarLink: ''
-      }
-    ]
+    isDrawerVisible: true
   }),
 
   computed: {
-    ...mapState(['user'])
+    ...mapState(['currentUser', 'users'])
   },
 
   methods: {
@@ -91,7 +73,7 @@ export default {
 
     exit () {
       this.$socket.emit('userLeftChat', {
-        id: this.$store.state.user.id
+        id: this.$store.state.currentUser.id
       }, () => {
         this.$router.push('/?message=leftChat')
         this.clearData()

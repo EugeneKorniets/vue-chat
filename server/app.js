@@ -23,13 +23,16 @@ io.on('connection', socket => {
       name: data.nickname,
       group: data.groupName
     })
-    callback({
-      userId: socket.id
-    })
     socket.emit('newMessage', message('admin', `Добро пожаловать в чат, ${data.nickname}`))
+    io
+      .to(data.groupName)
+      .emit('updateUsers', users.getByGroup(data.groupName))
     socket.broadcast
       .to(data.groupName)
       .emit('newMessage', message('admin', `Пользователь ${data.nickname} зашел в чат`))
+    callback({
+      userId: socket.id
+    })
   })
 
   socket.on('createMessage', (data, callback) => {
@@ -46,15 +49,26 @@ io.on('connection', socket => {
   })
 
   socket.on('userLeftChat', (data, callback) => {
-    if (!data.id) {
-      return callback('Введенные данные некорректны')
-    }
-    const user = users.get(data.id)
-    users.remove(user.id)
-    callback()
+    const user = users.remove(data.id)
+    socket.broadcast
+      .to(user.group)
+      .emit('updateUsers', users.getByGroup(user.group))
     socket.broadcast
       .to(user.group)
       .emit('newMessage', message('admin', `Пользователь ${user.name} вышел из чата`))
+    callback()
+  })
+
+  socket.on('disconnect', () => {
+    const user = users.remove(socket.id)
+    if (user) {
+      socket.broadcast
+        .to(user.group)
+        .emit('updateUsers', users.getByGroup(user.group))
+      socket.broadcast
+        .to(user.group)
+        .emit('newMessage', message('admin', `Пользователь ${user.name} вышел из чата`))
+    }
   })
 })
 
