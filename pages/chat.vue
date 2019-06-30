@@ -23,7 +23,9 @@ import ChatMessage from '../components/chat-message'
 import ChatForm from '../components/chat-form'
 
 export default {
-  name: "chat",
+  name: "chat-page",
+
+  layout: 'chat',
 
   components: {
     ChatMessage,

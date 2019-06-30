@@ -48,6 +48,20 @@
             </v-btn>
           </v-container>
         </v-form>
+        <v-snackbar
+          v-model="snackbar"
+          :timeout="6000"
+          bottom
+        >
+          {{ errorMessage }}
+          <v-btn
+            color="primary"
+            flat
+            @click="snackbar = false"
+          >
+            Закрыть
+          </v-btn>
+        </v-snackbar>
       </v-card>
     </v-flex>
   </v-layout>
@@ -57,6 +71,8 @@
 import { mapMutations } from 'vuex'
 
 export default {
+  name: 'auth-page',
+
   layout: 'empty',
 
   head: {
@@ -77,7 +93,11 @@ export default {
 
     groupNameRules: [
       v => !!v || 'Введите название группового чата'
-    ]
+    ],
+
+    snackbar: true,
+
+    errorMessage: ''
   }),
 
   sockets: {
@@ -106,6 +126,16 @@ export default {
         })
       }
     }
+  },
+
+  mounted () {
+    const { message } = this.$route.query
+    if (message === 'noUser') {
+      this.errorMessage = 'Авторизуйтесь'
+    } else if (message === 'leftChat') {
+      this.errorMessage = 'Вы вышли из чата'
+    }
+    this.snackbar = !!this.errorMessage
   }
 }
 </script>

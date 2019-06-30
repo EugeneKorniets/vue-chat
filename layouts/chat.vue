@@ -60,6 +60,8 @@
 import { mapState, mapMutations } from 'vuex'
 
 export default {
+  name: 'chat-layout',
+
   data: () => ({
     isDrawerVisible: true
   }),
