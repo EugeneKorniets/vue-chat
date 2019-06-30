@@ -1,6 +1,9 @@
 <template>
   <div class="chat__wrapper">
-    <div class="chat__message-container">
+    <div
+      class="chat__message-container"
+      ref="message-container"
+    >
       <chat-message
         v-for="(message, index) in messages"
         :key="index"
@@ -42,6 +45,14 @@ export default {
 
   computed: {
     ...mapState(['currentUser', 'messages'])
+  },
+
+  watch: {
+    messages () {
+      this.$nextTick(() => {
+        this.$refs['message-container'].scrollTop = this.$refs['message-container'].scrollHeight
+      })
+    }
   }
 }
 </script>
