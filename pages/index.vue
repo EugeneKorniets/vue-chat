@@ -10,7 +10,6 @@
     >
       <v-card
         class="pa-4 elevation-24"
-        min-width="420"
       >
         <v-card-title
           class="display-1 pa-0 mb-3"
@@ -26,7 +25,7 @@
             :rules="nicknameRules"
             label="Никнейм"
             required
-          ></v-text-field>
+          />
 
           <v-text-field
             class="mb-3"
@@ -34,7 +33,7 @@
             :rules="groupNameRules"
             label="Название группового чата"
             required
-          ></v-text-field>
+          />
 
           <v-container
             class="text-lg-right pa-0"
